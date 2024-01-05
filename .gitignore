@@ -1,0 +1,36 @@
+/pj/*.bag
+.DS_Store
+/hw/hw3/ultralytics
+/.vscode/
+# /pj/
+/note/
+/ref/CVBook/
+/hw/hw2/code/surroundView/
+/pj/code/catkin_ws/src/
+/pj/R0S项目+2053932_雷翔_2050633_卢嘉霖+2050664_黄晨冉/
+/pj/R0S项目+2053932_雷翔_2050633_卢嘉霖+2050664_黄晨冉.rar/
+
+# # 忽略以 CV_2053932_雷翔_Assignment 开头的文件夹
+CV_2053932_雷翔_Assignment*/
+
+# # 忽略以 CV_2053932_雷翔_Assignment 开头的压缩包
+# CV_2053932_雷翔_Assignment*.zip
+# CV_2053932_雷翔_Assignment*.rar
+
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+*.synctex.gz
+.*.lb
+.vscode
+
+**/build
+pj/R0S项目+2053932_雷翔_2050633_卢嘉霖+2050664_黄晨冉.rar

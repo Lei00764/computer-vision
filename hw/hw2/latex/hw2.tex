@@ -1,0 +1,350 @@
+\documentclass[12pt, a4paper, UTF8, fontset=windows]{ctexbook}
+\usepackage{amsmath, amsthm, amssymb, amsfonts, bm, color, fancyhdr, float, framed, geometry, graphicx, hyperref, lastpage, listings, mathrsfs, rotating, xcolor}
+
+
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{Q\arabic{problemname}.}}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{Ans.}}{\par}
+
+\geometry{left=20mm,right=20mm, top=20mm, bottom=22mm} % 页边距
+\setlength{\headheight}{15pt}
+\pagestyle{fancy} % 设置页脚页眉
+\rhead{Assignment2} % 页眉右边
+% \noindent % 取消首段缩进
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+% 代码设置
+\lstset{ 
+    backgroundcolor=\color{white},      % choose the background color
+    basicstyle=\footnotesize\ttfamily,  % size of fonts used for the code
+    columns=fullflexible,
+    tabsize=4,
+    breaklines=true,               % automatic line breaking only at whitespace
+    captionpos=b,                  % sets the caption-position to bottom
+    commentstyle=\color{mygreen},  % comment style
+    keywordstyle=\color{blue},     % keyword style
+    stringstyle=\color{mymauve}\ttfamily,  % string literal style
+    frame=single,
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    language=c++,
+    xleftmargin=3em,
+    xrightmargin=3em
+}
+
+
+\begin{document}
+
+\cfoot{\thepage\ / \pageref{LastPage}} % 页眉中间位添加内容：页码/总页码
+
+\thispagestyle{empty}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=6cm]{../../src/images/logo.jpg}
+\end{figure}
+
+\vspace*{\fill}
+    \begin{center}
+        \Huge\textbf{Assignment2}
+    \end{center}
+\vspace*{\fill}
+
+\begin{table}[b]
+    \centering
+    \large
+    \begin{tabular}{ll}
+        \textbf{Course:} & Computer Vision \\
+        \textbf{Name:} & Xiang Lei (雷翔) \\
+        \textbf{Student ID:} & 2053932 \\
+        \textbf{Date:} & November 2023 \\
+    \end{tabular}
+\end{table}
+
+\newpage
+
+\setcounter{page}{1} % 页码从当前页开始
+
+\begin{problem}
+    In the augmented Euclidean plane, there is a line $x - 3y + 4 = 0$, what is the homogeneous
+    coordinate of the infinity point of this line?
+\end{problem}
+
+\begin{solution}
+    
+    In the augmented Euclidean plane，the point at infinity on a line exists both on the line itself and on the line at infinity. Therefore, the point at infinity of a line is the intersection point of the line and the line at infinity.
+    
+    Now the homogeneous coordinates of two lines are: $\mathbf{l}=(1, -3, 4)$ and $\mathbf{l'}=(0, 0, 1)$.
+
+    Therefore, the homogeneous coordinates of the intersection point $x$ is $\mathbf{l} \times \mathbf{l'} = (-3, -1, 0)$.
+
+    From the definition of a point's homogeneous coordinates, if $(-3, -1, 0)$ is a homogeneous coordinate of a point, 
+    then $(k(-3, -1, 0))$ is also a homogeneous coordinate of the same point, where $k \neq 0$.
+
+    So the homogeneous coordinates of the infinity point of the line is $k(-3, -1, 0)(k \neq 0)$.
+    %In fact, for the infinity point in the projective plane, $(x_0, y_0, 0)$ can be seen as the homogeneous coordinate,
+    %where $(x_0, y_0)$ is the direction vector of the line.
+\end{solution}
+
+
+\begin{problem}
+    On the normalized retinal plane, suppose that $p_n$ is an ideal point of projection without considering
+    distortion. If distortion is considered, $p_n=(x, y)^T$ is mapped to $p_d=(x_d, y_d)^T$ which is also on the normalized
+    retinal plane. Their relationship is
+    
+    $x_d = x(1 + k_1r^2 + k_2r^4) + 2 \rho_1 xy + \rho_2(r^2 + 2x^2) + xk_3r^6$
+    
+    $y_d = y(1 + k_1r^2 + k_2r^4) + 2 \rho_2 xy + \rho_1(r^2 + 2y^2) + yk_3r^6$
+
+    where $r^2 = x^2 + y^2$
+
+    For performing nonlinear optimization in the pipeline of camera calibration, we need to compute the Jacobian
+    matrix of $p_d$ w.r.t $p_n$, i.e., $\frac{dp_d}{dp_n^T}$
+
+    It should be noted that in this question $p_d$ is the function of $p_n$ and all the other parameters can be regarded as
+    constants.
+\end{problem}
+
+\begin{solution}
+    $$
+    \frac{dp_d}{dp_n^T}
+    =
+    \begin{bmatrix}
+        \frac{\partial x_d}{\partial x} & \frac{\partial x_d}{\partial y} \\
+        \frac{\partial y_d}{\partial x} & \frac{\partial y_d}{\partial y}
+    \end{bmatrix}
+    $$
+
+    $$r^2 = x^2 + y^2 \Rightarrow \frac{\partial r}{\partial x} = \frac{x}{\sqrt{x^2 + y^2}},  \frac{\partial r}{\partial y} = \frac{y}{\sqrt{x^2 + y^2}}$$
+        
+    \newpage
+
+    \begin{align*}
+    \frac{\partial x_d}{\partial x} 
+    &= (1 + k_1r^2 + k_2r^4) + x(k_1 2r \frac{\partial r}{\partial x} + k_2 4r^3 \frac{\partial r}{\partial x}) + 2 \rho_1y + \rho_2(2r \frac{\partial r}{\partial x} + 4x) + k_3(r^6 + x 6r^5 \frac{\partial r}{\partial x}) \\ 
+    &= (1 + k_1r^2 + k_2r^4) + (2k_1x^2 + 4k_2r^2x^2) + 2\rho_1y + 6\rho_2x + (k_3r^6 + 6k_3r^4x^2) \\
+    \frac{\partial x_d}{\partial y}
+    &= x(k_1 2r \frac{\partial r}{\partial y} + k_2 4r^3 \frac{\partial r}{\partial y}) + 2 \rho_1 x + \rho_1(2r \frac{\partial r}{\partial y}) + xk_3(6r ^ 5 \frac{\partial r}{\partial y}) \\
+    &= (2k_1xy + 4k_2r^2xy) + 2 \rho_1 x + 2\rho_1y + 6k_3r^4xy \\
+    \frac{\partial y_d}{\partial x}
+    &= y(k_1 2r \frac{\partial r}{\partial x} + k_2 4r^3 \frac{\partial r}{\partial x}) + 2 \rho_2 y + \rho_1(2r \frac{\partial r}{\partial x}) + yk_3 6r^5 \frac{\partial r}{\partial x} \\
+    &= (2k_1 xy + 4k_2r^2xy) + 2 \rho_2 y + 2 \rho_1 x + 6k_3r^4xy \\
+    \frac{\partial y_d}{\partial y}
+    &= (1 + k_1r^2 + k_2r^4) + y(k_1 2r \frac{\partial r}{\partial y} + k_2 4r^3 \frac{\partial r}{\partial y}) + 2 \rho_2 x + \rho_1(2 r \frac{\partial r}{\partial y} + 4y) + k_3(r^6 + y 6r^5 \frac{\partial r}{\partial y}) \\
+    &= (1 + k_1r^2 + k_2r^4) + (2k_1y^2 + 4k_2r^2y^2) + 2 \rho_2 x + 6 \rho_1 y + (k_3 r^6 + 6k_3r^4y^2)
+    \end{align*}
+
+    So the answer is following:
+
+    \resizebox{0.9\textwidth}{!}{
+    $\frac{dp_d}{dp_n^T} =
+    \begin{bmatrix}
+    (1 + k_1r^2 + k_2r^4) + (2k_1x^2 + 4k_2r^2x^2) + 2\rho_1y + 6\rho_2x + (k_3r^6 + 6k_3r^4x^2) & (2k_1xy + 4k_2r^2xy) + 2 \rho_1 x + 2\rho_1y + 6k_3r^4xy \\
+    (2k_1 xy + 4k_2r^2xy) + 2 \rho_2 y + 2 \rho_1 x + 6k_3r^4xy & (1 + k_1r^2 + k_2r^4) + (2k_1y^2 + 4k_2r^2y^2) + 2 \rho_2 x + 6 \rho_1 y + (k_3 r^6 + 6k_3r^4y^2)
+    \end{bmatrix}
+    $
+    }
+\end{solution}
+
+\begin{problem}
+    In our lecture, we mentioned that for performing nonlinear optimization in the pipeline of camera
+    calibration, we need to compute the Jacobian of the rotation matrix (represented in a vector) w.r.t its
+    axis-angle representation. In this question, your task is to derive the concrete formula of this Jacobian matrix.
+    Suppose that
+    
+    $$\mathbf{d}=\theta\mathbf{n} \in \mathbb{R}^{3 \times 1}$$ 
+    
+    where $\mathbf{n} = \begin{bmatrix} {n_1} \\ {n_2} \\ {n_3} \end{bmatrix}$ is a 3D unit vector and 
+    $\theta$ is a real number denoting the rotation angle.
+
+    With Rodrigues formula, $\mathbf{d}$ can be converted to its rotation matrix form:
+
+    $$\mathbf{R} = \cos\theta \mathbf{I} + (1 - \cos\theta)\mathbf{n} \mathbf{n}^T + \sin \theta \mathbf{n}\verb|^|$$
+
+    and obviously 
+    $
+    \mathbf{R} \triangleq 
+    \begin{bmatrix}
+        {r_{11}} & {r_{12}} & {r_{13}} \\
+        {r_{21}} & {r_{22}} & {r_{23}} \\
+        {r_{31}} & {r_{32}} & {r_{33}}
+    \end{bmatrix}
+    $ is a $3 \times 3$ matrix.
+
+    Denote $\mathbf{r}$ by the vectorized form of $\mathbf{R}$, i.e.
+    $\mathbf{r} = \begin{bmatrix} r_{11} & r_{12} & r_{13} & r_{21} & r_{22} & r_{23} & r_{31} & r_{32} & r_{33} \end{bmatrix}^T$.
+
+    Please give the concrete form of Jacobian matrix of $\mathbf{r}$ w.r.t $\mathbf{d}$, i.e., $\frac{d\mathbf{r}}{d\mathbf{d}^T} \in \mathbb{R}^{9 \times 3}$.
+
+    In order to make it easy to check your result, please follow the following notation requirements, $\alpha \triangleq \sin \theta$, $\beta \triangleq \cos \theta$, $\gamma = 1 - \cos \theta$.
+
+    In other words, the ingredients appearing in your formula are restricted to $\alpha$, $\beta$, $\gamma$, $\theta$, $n_1$, $n_2$, and $n_3$.
+\end{problem}
+
+\begin{solution}
+    $$
+    R = 
+    \begin{bmatrix}
+        \cos \theta & 0 & 0 \\
+        0 & \cos \theta & 0 \\
+        0 & 0 & \cos \theta
+    \end{bmatrix}
+    + (1 - \cos \theta)
+    \begin{bmatrix}
+        n_1^2 & n_1 n_2 & n_1 n_3 \\
+        n_1 n_2 & n_2^2 & n_2 n_2 \\
+        n_1 n_3 & n_2 n_3 & n_3^2
+    \end{bmatrix}
+    + \sin \theta
+    \begin{bmatrix}
+        0 & -n_3 & n_2 \\
+        n_3 & 0 & -n_1 \\
+        -n_2 & n_1 & 0
+    \end{bmatrix}
+    $$
+
+    \begin{align*}
+    \mathbf{\gamma}
+    &=
+    \begin{bmatrix} r_{11} & r_{12} & r_{13} & r_{21} & r_{22} & r_{23} & r_{31} & r_{32} & r_{33} \end{bmatrix}^T \\
+    &=
+    \begin{bmatrix}
+        \beta + \gamma n_1^2 \\
+        \gamma n_1 n_2 - \alpha n_3 \\
+        \gamma n_1 n_3 + \alpha n_2 \\
+        \gamma n_1 n_2 + \alpha n_3 \\
+        \beta + \gamma n_2^2 \\
+        \gamma n_2 n_3 - \alpha n_1 \\
+        \gamma n_1 n_3 - \alpha n_2 \\ 
+        \gamma n_2 n_3 + \alpha n_1 \\
+        \beta + \gamma n_3^2
+    \end{bmatrix}
+    \end{align*}
+
+    
+
+    $
+    \mathbf{d}=\theta\mathbf{n} 
+    \Rightarrow
+    \begin{cases}
+        d_1 &= \theta n_1 \\
+        d_2 &= \theta n_2 \\
+        d_3 &= \theta n_3
+    \end{cases}
+    $
+
+    Since $\mathbf{n}$ is a 3D unit vector, we can know:
+    $$
+    (\frac{d_1}{\theta})^2 + (\frac{d_2}{\theta})^2 + (\frac{d_3}{\theta})^2 + 1
+    \Rightarrow
+    \theta = \sqrt{d_1^2 + d_2^2 + d_3^2}
+    $$
+    $$
+    n_i = \frac{d_1}{\sqrt{d_1^2 + d_2^2 + d_3^2}}, \quad \text{where } i \in \{1, 2, 3\}
+    $$
+
+    In this problem, we consider $d_1$, $d_2$, and $d_3$ as independent variables.
+    $$
+    \frac{\partial \theta}{\partial d_i} = \frac{d_i}{\sqrt{d_1^2 + d_2^2 + d_3^2}}, \quad \text{where } i \in \{1, 2, 3\}
+    $$
+    $$
+    \begin{cases}
+    \frac{\partial \alpha}{\partial d_i}
+    =\frac{\partial \alpha}{\partial \theta} \frac{\partial \theta}{\partial d_i}
+    = \cos \theta \frac{d_i}{\sqrt{d_1^2 + d_2^2 + d_3^2}}
+    = \beta n_i , \quad \text{where } i \in \{1, 2, 3\} \\
+    \frac{\partial \beta}{\partial d_i}
+    = \frac{\partial \beta}{\partial \theta} \frac{\partial \theta}{\partial d_i}
+    = -\sin \theta \frac{d_i}{\sqrt{d_1^2 + d_2^2 + d_3^2}}
+    = -\alpha n_i , \quad \text{where } i \in \{1, 2, 3\} \\
+    \frac{\partial \gamma}{\partial d_i}
+    = \frac{\partial \gamma}{\partial \theta} \frac{\partial \theta}{\partial d_i}
+    = \sin \theta \frac{d_i}{\sqrt{d_1^2 + d_2^2 + d_3^2}}
+    = \alpha n_i , \quad \text{where } i \in \{1, 2, 3\} \\
+    \end{cases}
+    $$
+
+    \begin{align*}
+    \frac{\partial n_j}{\partial d_i} 
+    &=
+    \begin{cases}
+        \frac{\sqrt{d_1^2 + d_2^2 + d_3^2} - d_i \frac{d_i}{\sqrt{d_1^2 + d_2^2 + d_3^2}}}{d_1^2 + d_2^2 + d_3^2} & \text{if } i = j \\
+        - \frac{d_j \frac{d_i}{\sqrt{d_1^2 + d_2^2 + d_3^2}}}{d_1^2 + d_2^2 + d_3^2} & \text{if } i \neq j \\
+    \end{cases} \\
+    &= 
+    \begin{cases}
+        \frac{1 - n_i^2}{\theta} & \text{if } i = j \\
+        -\frac{n_i n_j}{\theta} & \text{if } i \neq j \\
+    \end{cases} \\
+    \end{align*}
+    
+    The answer is following, and the detail is in the next page:
+    \begin{align*}
+    \frac{d\mathbf{r}}{d\mathbf{d}^T}
+    &= 
+    \begin{bmatrix}
+        \frac{\partial r_{11}}{\partial d_1} & \frac{\partial r_{11}}{\partial d_2} & \frac{\partial r_{11}}{\partial d_3} \\
+        \frac{\partial r_{12}}{\partial d_1} & \frac{\partial r_{12}}{\partial d_2} & \frac{\partial r_{12}}{\partial d_3} \\
+        \frac{\partial r_{13}}{\partial d_1} & \frac{\partial r_{13}}{\partial d_2} & \frac{\partial r_{13}}{\partial d_3} \\
+        \frac{\partial r_{21}}{\partial d_1} & \frac{\partial r_{21}}{\partial d_2} & \frac{\partial r_{21}}{\partial d_3} \\
+        \frac{\partial r_{22}}{\partial d_1} & \frac{\partial r_{22}}{\partial d_2} & \frac{\partial r_{22}}{\partial d_3} \\
+        \frac{\partial r_{23}}{\partial d_1} & \frac{\partial r_{23}}{\partial d_2} & \frac{\partial r_{23}}{\partial d_3} \\
+        \frac{\partial r_{31}}{\partial d_1} & \frac{\partial r_{31}}{\partial d_2} & \frac{\partial r_{31}}{\partial d_3} \\
+        \frac{\partial r_{32}}{\partial d_1} & \frac{\partial r_{32}}{\partial d_2} & \frac{\partial r_{32}}{\partial d_3} \\
+        \frac{\partial r_{33}}{\partial d_1} & \frac{\partial r_{33}}{\partial d_2} & \frac{\partial r_{33}}{\partial d_3} \\
+    \end{bmatrix} \\
+    &=
+    \resizebox{1\textwidth}{!}{$
+    \begin{bmatrix}
+        \alpha n_1(n_1^2 - 1) + \frac{2 \gamma n_1(1-n_1^2)}{\theta} & \alpha n_2(n_1^2 - 1) - \frac{2 \gamma n_1^2 n_2}{\theta} & \alpha n_3(n_1^2 - 1) - \frac{2 \gamma n_1^2 n_3}{\theta} \\
+        n_1(\alpha n_1 n_2 - \beta n_3) + \frac{\gamma n_2 (1-2n_1^2) + \alpha n_1 n_3}{\theta} & n_2(\alpha n_1 n_2 - \beta n_3) + \frac{\gamma n_1 (1-2n_2^2) + \alpha n_2 n_3}{\theta} & n_3(\alpha n_1 n_2 - \beta n_3) - \frac{2 \gamma n_1 n_2 n_3 + \alpha (1-n_3^2)}{\theta} \\
+        n_1(\alpha n_1 n_3 + \beta n_2) + \frac{\gamma n_3 (1- 2n_1^2) - \alpha n_1 n_2}{\theta} & n_2(\alpha n_1 n_3 + \beta n_2) + \frac{\alpha(1 - n_2^2) - 2 \gamma n_1 n_2 n_3}{\theta} & n_3(\alpha n_1 n_3 + \beta n_2) + \frac{\gamma n_1 (1-2n_3^2) - \alpha n_2 n_3}{\theta} \\
+        n_1(\alpha n_1 n_2 + \beta n_3) + \frac{\gamma n_2 (1-2n_1^2) - \alpha n_1 n_3}{\theta} & n_2(\alpha n_1 n_2 + \beta n_3) + \frac{\gamma n_1 (1-2n_2^2) - \alpha n_2 n_3}{\theta} & n_3(\alpha n_1 n_2 + \beta n_3^2) + \frac{\alpha(1-n_3^2) - 2 \gamma n_1 n_2 n_3}{\theta} \\
+        \alpha n_1(n_2^2 - 1) - \frac{2 \gamma n_1 n_2^2}{\theta} & \alpha n_2(n_2^2 - 1) + \frac{2 \gamma n_2(1-n_2^2)}{\theta} & \alpha n_3(n_2^2 - 1) - \frac{2 \gamma n_2^2 n_3}{\theta} \\
+        n_1(\alpha n_2 n_3 - \beta n_1) - \frac{\alpha (1-n_1^2) + 2 \gamma n_1 n_2 n_3}{\theta} & n_2(\alpha n_2 n_3 - \beta n_1) + \frac{\gamma n_3 (1-2n_2^2) + \alpha n_1 n_2}{\theta} & n_3(\alpha n_2 n_3 - \beta n_1) + \frac{\gamma n_2 (1- 2n_3^2) + \alpha n_1 n_3}{\theta} \\
+        n_1(\alpha n_1 n_3 - \beta n_2) + \frac{\gamma n_3 (1-2n_1^2) + \alpha n_1 n_2}{\theta} & n_2(\alpha n_1 n_3 - \beta n_2) - \frac{\alpha(1-n_2^2) + 2 \gamma n_1 n_2 n_3}{\theta} & n_3(\alpha n_1 n_3 - \beta n_2) + \frac{\gamma n_1 (1-2n_3^2) + \alpha n_2 n_3}{\theta} \\
+        n_1(\alpha n_2 n_3 + \beta n_1) + \frac{\alpha(1-n_1^2) - 2 \gamma n_1 n_2 n_3}{\theta} & n_2(\alpha n_2 n_3 + \beta n_1) + \frac{\gamma n_3 (1-2n_2^2) - \alpha n_1 n_2}{\theta} & n_3(\alpha n_2 n_3 + \beta n_1) + \frac{\gamma n_2(1-2n_3^2) - \alpha n_1 n_3}{\theta} \\
+        \alpha n_1 (n_3^2 - 1) - \frac{2 \gamma n_1 n_3^2}{\theta} & \alpha n_2 (n_3^2 - 1) - \frac{2 \gamma n_2 n_3^2}{\theta} & \alpha n_3 (n_3^2 - 1) + \frac{2 \gamma n_3(1-n_3^2)}{\theta} \\
+    \end{bmatrix}$
+    }
+    \end{align*}
+
+    \newpage
+    
+    \begin{center}
+        \begin{turn}{-90}
+            $\begin{aligned}
+                \frac{d\mathbf{r}}{d\mathbf{d}^T}
+                &=
+                \begin{bmatrix}
+                    \frac{\partial \beta}{\partial d_1} + \frac{\partial \gamma}{\partial d_1} n_1 ^ 2 + \gamma 2 n_1 \frac{\partial n_1}{\partial d_1} & \frac{\partial \beta}{\partial d_2} + \frac{\partial \gamma}{\partial d_2} n_1 ^ 2 + \gamma 2 n_1 \frac{\partial n_1}{\partial d_2} & \frac{\partial \beta}{\partial d_3} + \frac{\partial \gamma}{\partial d_3} n_1 ^ 2 + \gamma 2 n_1 \frac{\partial n_1}{\partial d_3} \\
+                    \frac{\partial \gamma}{\partial d_1} n_1 n_2 + \gamma \frac{\partial n_1}{\partial d_1} n_2 + \gamma n_1 \frac{\partial n_2}{\partial d_1} - \frac{\partial \alpha}{\partial d_1} n_3 - \alpha \frac{\partial n_3}{\partial d_1} & \frac{\partial \gamma}{\partial d_2} n_1 n_2 + \gamma \frac{\partial n_1}{\partial d_2} n_2 + \gamma n_1 \frac{\partial n_2}{\partial d_2} - \frac{\partial \alpha}{\partial d_2} n_3 - \alpha \frac{\partial n_3}{\partial d_2} & \frac{\partial \gamma}{\partial d_3} n_1 n_2 + \gamma \frac{\partial n_1}{\partial d_3} n_2 + \gamma n_1 \frac{\partial n_2}{\partial d_3} - \frac{\partial \alpha}{\partial d_3} n_3 - \alpha \frac{\partial n_3}{\partial d_3} \\
+                    \frac{\partial \gamma}{\partial d_1} n_1 n_3 + \gamma \frac{\partial n_1}{\partial d_1} n_3 + \gamma n_1 \frac{\partial n_3}{\partial d_1} + \frac{\partial \alpha}{\partial d_1} n_2 + \alpha \frac{\partial n_2}{\partial d_1} & \frac{\partial \gamma}{\partial d_2} n_1 n_3 + \gamma \frac{\partial n_1}{\partial d_2} n_3 + \gamma n_1 \frac{\partial n_3}{\partial d_2} + \frac{\partial \alpha}{\partial d_2} n_2 + \alpha \frac{\partial n_2}{\partial d_2} & \frac{\partial \gamma}{\partial d_3} n_1 n_3 + \gamma \frac{\partial n_1}{\partial d_3} n_3 + \gamma n_1 \frac{\partial n_3}{\partial d_3} + \frac{\partial \alpha}{\partial d_3} n_2 + \alpha \frac{\partial n_2}{\partial d_3} \\
+                    \frac{\partial \gamma}{\partial d_1} n_1 n_2 + \gamma \frac{\partial n_1}{\partial d_1} n_2 + \gamma n_1 \frac{\partial n_2}{\partial d_1} + \frac{\partial \alpha}{\partial d_1} n_3 + \alpha \frac{\partial n_3}{\partial d_1} & \frac{\partial \gamma}{\partial d_2} n_1 n_2 + \gamma \frac{\partial n_1}{\partial d_2} n_2 + \gamma n_1 \frac{\partial n_2}{\partial d_2} + \frac{\partial \alpha}{\partial d_2} n_3 + \alpha \frac{\partial n_3}{\partial d_2} & \frac{\partial \gamma}{\partial d_3} n_1 n_2 + \gamma \frac{\partial n_1}{\partial d_3} n_2 + \gamma n_1 \frac{\partial n_2}{\partial d_3} + \frac{\partial \alpha}{\partial d_3} n_3 + \alpha \frac{\partial n_3}{\partial d_3} \\
+                    \frac{\partial \beta}{\partial d_1} + \frac{\partial \gamma}{\partial d_1} n_2 ^ 2 + \gamma 2 n_2 \frac{\partial n_2}{\partial d_1} & \frac{\partial \beta}{\partial d_2} + \frac{\partial \gamma}{\partial d_2} n_2 ^ 2 + \gamma 2 n_2 \frac{\partial n_2}{\partial d_2} & \frac{\partial \beta}{\partial d_3} + \frac{\partial \gamma}{\partial d_3} n_2 ^ 2 + \gamma 2 n_2 \frac{\partial n_2}{\partial d_3} \\
+                    \frac{\partial \gamma}{\partial d_1} n_2 n_3 + \gamma \frac{\partial n_2}{\partial d_1} n_3 + \gamma n_2 \frac{\partial n_3}{\partial d_1} - \frac{\partial \alpha}{\partial d_1} n_1 - \alpha \frac{\partial n_1}{\partial d_1} & \frac{\partial \gamma}{\partial d_2} n_2 n_3 + \gamma \frac{\partial n_2}{\partial d_2} n_3 + \gamma n_2 \frac{\partial n_3}{\partial d_2} - \frac{\partial \alpha}{\partial d_2} n_1 - \alpha \frac{\partial n_1}{\partial d_2} & \frac{\partial \gamma}{\partial d_3} n_2 n_3 + \gamma \frac{\partial n_2}{\partial d_3} n_3 + \gamma n_2 \frac{\partial n_3}{\partial d_3} - \frac{\partial \alpha}{\partial d_3} n_1 - \alpha \frac{\partial n_1}{\partial d_3} \\
+                    \frac{\partial \gamma}{\partial d_1} n_1 n_3 + \gamma \frac{\partial n_1}{\partial d_1} n_3 + \gamma n_1 \frac{\partial n_3}{\partial d_1} - \frac{\partial \alpha}{\partial d_1} n_2 - \alpha \frac{\partial n_2}{\partial d_1} & \frac{\partial \gamma}{\partial d_2} n_1 n_3 + \gamma \frac{\partial n_1}{\partial d_2} n_3 + \gamma n_1 \frac{\partial n_3}{\partial d_2} - \frac{\partial \alpha}{\partial d_2} n_2 - \alpha \frac{\partial n_2}{\partial d_2} & \frac{\partial \gamma}{\partial d_3} n_1 n_3 + \gamma \frac{\partial n_1}{\partial d_3} n_3 + \gamma n_1 \frac{\partial n_3}{\partial d_3} - \frac{\partial \alpha}{\partial d_3} n_2 - \alpha \frac{\partial n_2}{\partial d_3} \\
+                    \frac{\partial \gamma}{\partial d_1} n_2 n_3 + \gamma \frac{\partial n_2}{\partial d_1} n_3 + \gamma n_2 \frac{\partial n_3}{\partial d_1} + \frac{\partial \alpha}{\partial d_1} n_1 + \alpha \frac{\partial n_1}{\partial d_1} & \frac{\partial \gamma}{\partial d_2} n_2 n_3 + \gamma \frac{\partial n_2}{\partial d_2} n_3 + \gamma n_2 \frac{\partial n_3}{\partial d_2} + \frac{\partial \alpha}{\partial d_2} n_1 + \alpha \frac{\partial n_1}{\partial d_2} & \frac{\partial \gamma}{\partial d_3} n_2 n_3 + \gamma \frac{\partial n_2}{\partial d_3} n_3 + \gamma n_2 \frac{\partial n_3}{\partial d_3} + \frac{\partial \alpha}{\partial d_3} n_1 + \alpha \frac{\partial n_1}{\partial d_3} \\
+                    \frac{\partial \beta}{\partial d_1} + \frac{\partial \gamma}{\partial d_1} n_3 ^ 2 + \gamma 2 n_3 \frac{\partial n_3}{\partial d_1} & \frac{\partial \beta}{\partial d_2} + \frac{\partial \gamma}{\partial d_2} n_3 ^ 2 + \gamma 2 n_3 \frac{\partial n_3}{\partial d_2} & \frac{\partial \beta}{\partial d_3} + \frac{\partial \gamma}{\partial d_3} n_3 ^ 2 + \gamma 2 n_3 \frac{\partial n_3}{\partial d_3} \\
+                \end{bmatrix} \\
+                &=
+                \begin{bmatrix}
+                    -\alpha n_1 + \alpha n_1^3 + \frac{2 \gamma n_1(1-n_1^2)}{\theta} & -\alpha n_2 + \alpha n_1^2 n_2 - \frac{2 \gamma n_1^2 n_2}{\theta} & -\alpha n_3 + \alpha n_1^2 n_3 - \frac{2 \gamma n_1^2 n_3}{\theta} \\
+                    \alpha n_1^2 n_2 + \frac{\gamma n_2 (1-n_1^2)}{\theta} - \frac{\gamma n_1^2 n_2}{\theta} - \beta n_1 n_3 + \frac{\alpha n_1 n_3}{\theta} & \alpha n_1 n_2^2 - \frac{\gamma n_1 n_2^2}{\theta} + \frac{\gamma n_1 (1-n_2^2)}{\theta} - \beta n_2 n_3 + \frac{\alpha n_2 n_3}{\theta} & \alpha n_1 n_2 n_3 - \frac{\gamma n_1 n_2 n_3}{\theta} - \frac{\gamma n_1 n_2 n_3}{\theta} - \beta n_3^2 - \frac{\alpha (1-n_3^2)}{\theta} \\
+                    \alpha n_1^2 n_3 + \frac{\gamma n_3 (1-n_1^2)}{\theta} - \frac{\gamma n_1^2 n_3}{\theta} + \beta n_1 n_2 - \frac{\alpha n_1 n_2}{\theta} & \alpha n_1 n_2 n_3 - \frac{\gamma n_1 n_2 n_3}{\theta} - \frac{\gamma n_1 n_2 n_3}{\theta} + \beta n_2^2 + \frac{\alpha (1-n_2^2)}{\theta} & \alpha n_1 n_3^2 - \frac{\gamma n_1 n_3^2}{\theta} + \frac{\gamma n_1 (1-n_3^2)}{\theta} + \beta n_2 n_3 - \frac{\alpha n_2 n_3}{\theta} \\
+                    \alpha n_1^2 n_2 + \frac{\gamma n_2 (1-n_1^2)}{\theta} - \frac{\gamma n_1^2 n_2}{\theta} + \beta n_1 n_3 - \frac{\alpha n_1 n_3}{\theta} & \alpha n_1 n_2^2 - \frac{\gamma n_1 n_2^2}{\theta} + \frac{\gamma n_1 (1-n_2^2)}{\theta} + \beta n_2 n_3 - \frac{\alpha n_2 n_3}{\theta} & \alpha n_1 n_2 n_3 - \frac{\gamma n_1 n_2 n_3}{\theta} - \frac{\gamma n_1 n_2 n_3}{\theta} + \beta n_3^2 + \frac{\alpha (1-n_3^2)}{\theta} \\
+                    -\alpha n_1 + \alpha n_1 n_2^2 - \frac{2 \gamma n_1 n_2^2}{\theta} & - \alpha n_2 + \alpha n_2^3 + \frac{2 \gamma n_2 (1-n_2^2)}{\theta} & -\alpha n_3 + \alpha n_2^2 n_3 - \frac{2 \gamma n_2^2 n_3}{\theta} \\
+                    \alpha n_1 n_2 n_3 - \frac{\gamma n_1 n_2 n_3}{\theta} - \frac{\gamma n_1 n_2 n_3}{\theta} - \beta n_1^2 - \frac{\alpha (1-n_1^2)}{\theta} & \alpha n_2^2 n_3 + \frac{\gamma n_3 (1-n_2^2)}{\theta} - \frac{\gamma n_2^2 n_3}{\theta} - \beta n_1 n_2 + \frac{\alpha n_1 n_2}{\theta} & \alpha n_2 n_3^2 - \frac{\gamma n_2 n_3^2}{\theta} + \frac{\gamma n_2 (1-n_3^2)}{\theta} - \beta n_1 n_3 + \frac{\alpha n_1 n_3}{\theta} \\
+                    \alpha n_1^2 n_3 + \frac{\gamma n_3 (1-n_1^2)}{\theta} - \frac{\gamma n_1^2 n_3}{\theta} - \beta n_1 n_2 + \frac{\alpha n_1 n_2}{\theta} & \alpha n_1 n_2 n_3 - \frac{\gamma n_1 n_2 n_3}{\theta} - \frac{\gamma n_1 n_2 n_3}{\theta} - \beta n_2^2 - \frac{\alpha (1-n_2^2)}{\theta} & \alpha n_1 n_3^2 - \frac{\gamma n_1 n_3^2}{\theta} + \frac{\gamma n_1 (1-n_3^2)}{\theta} - \beta n_2 n_3 + \frac{\alpha n_2 n_3}{\theta} \\
+                    \alpha n_1 n_2 n_3 - \frac{\gamma n_1 n_2 n_3}{\theta} - \frac{\gamma n_1 n_2 n_3}{\theta} + \beta n_1^2 + \frac{\alpha (1-n_1^2)}{\theta} & \alpha n_2^2 n_3 + \frac{\gamma n_3 (1-n_2^2)}{\theta} - \frac{\gamma n_2^2 n_3}{\theta} + \beta n_1 n_2 - \frac{\alpha n_1 n_2}{\theta} & \alpha n_2 n_3^2 - \frac{\gamma n_2 n_3^2}{\theta} + \frac{\gamma n_2 (1-n_3^2)}{\theta} + \beta n_1 n_3 - \frac{\alpha n_1 n_3}{\theta} \\
+                    -\alpha n_1 + \alpha n_1 n_3^2 - \frac{2 \gamma n_1 n_3^2}{\theta} & -\alpha n_2 + \alpha n_2 n_3^2 - \frac{2 \gamma n_2 n_3^2}{\theta} & -\alpha n_3 + \alpha n_3^3 + \frac{2 \gamma n_3 (1-n_3^2)}{\theta} \\
+                \end{bmatrix}
+            \end{aligned}$
+        \end{turn}
+    \end{center}
+\end{solution}
+
+\end{document}

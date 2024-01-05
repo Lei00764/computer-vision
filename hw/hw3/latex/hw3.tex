@@ -1,0 +1,130 @@
+\documentclass[12pt, a4paper, UTF8, fontset=windows]{ctexbook}
+\usepackage{amsmath, amsthm, amssymb, amsfonts, bm, color, fancyhdr, float, framed, geometry, graphicx, hyperref, lastpage, listings, mathrsfs, rotating, xcolor}
+
+
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{Q\arabic{problemname}.}}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{Ans.}}{\par}
+
+\geometry{left=20mm,right=20mm, top=20mm, bottom=22mm} % 页边距
+\setlength{\headheight}{15pt}
+\pagestyle{fancy} % 设置页脚页眉
+\rhead{Assignment3} % 页眉右边
+% \noindent % 取消首段缩进
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+% 代码设置
+\lstset{ 
+    backgroundcolor=\color{white},      % choose the background color
+    basicstyle=\footnotesize\ttfamily,  % size of fonts used for the code
+    columns=fullflexible,
+    tabsize=4,
+    breaklines=true,               % automatic line breaking only at whitespace
+    captionpos=b,                  % sets the caption-position to bottom
+    commentstyle=\color{mygreen},  % comment style
+    keywordstyle=\color{blue},     % keyword style
+    stringstyle=\color{mymauve}\ttfamily,  % string literal style
+    frame=single,
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    language=c++,
+    xleftmargin=3em,
+    xrightmargin=3em
+}
+
+
+\begin{document}
+
+\cfoot{\thepage\ / \pageref{LastPage}} % 页眉中间位添加内容：页码/总页码
+
+\thispagestyle{empty}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=6cm]{../../src/images/logo.jpg}
+\end{figure}
+
+\vspace*{\fill}
+    \begin{center}
+        \Huge\textbf{Assignment3}
+    \end{center}
+\vspace*{\fill}
+
+\begin{table}[b]
+    \centering
+    \large
+    \begin{tabular}{ll}
+        \textbf{Course:} & Computer Vision \\
+        \textbf{Name:} & Xiang Lei (雷翔) \\
+        \textbf{Student ID:} & 2053932 \\
+        \textbf{Date:} & December 2023 \\
+    \end{tabular}
+\end{table}
+
+\newpage
+
+\setcounter{page}{1} % 页码从当前页开始
+
+\begin{problem}
+    Nonlinear least-squares. Suppose that \( f(\mathbf{x})=(f_1(\mathbf{x}), f_2(\mathbf{x}),\ldots,f_m(\mathbf{x})) : \mathbb{R}^n \rightarrow \mathbb{R}^m \), \( \mathbf{x} \in \mathbb{R}^n \), \( f \in \mathbb{R}^m \) and some \( f_i : \mathbb{R}^n \rightarrow \mathbb{R} \) is a (are) non-linear function(s). Then, the problem,
+
+    \[
+    \mathbf{x}^* = \arg\min_{\mathbf{x}} \frac{1}{2} \| f(\mathbf{x}) \|^2 = \arg\min_{\mathbf{x}} \frac{1}{2} (f(\mathbf{x}))^\mathrm{T} f(\mathbf{x})
+    \]
+    
+    is a nonlinear least-squares problem. In our lecture, we mentioned that Levenberg-Marquardt algorithm is a typical method to solve this problem. In L-M algorithm, for each updating step, at the current \(\mathbf{x}\), a local approximation model is constructed as,
+    \begin{align*}
+    L(\mathbf{h}) 
+    &= \frac{1}{2} (f(\mathbf{x}+\mathbf{h}))^\mathrm{T} (f(\mathbf{x}+\mathbf{h})) + \frac{1}{2} \mu \mathbf{h}^\mathrm{T} \mathbf{h} \\
+    &= \frac{1}{2} (f(\mathbf{x}))^\mathrm{T} f(\mathbf{x}) + \mathbf{h}^\mathrm{T}(J(\mathbf{x}))^\mathrm{T}f(\mathbf{x}) + \frac{1}{2} \mathbf{h}^\mathrm{T}(J(\mathbf{x}))^\mathrm{T} J(\mathbf{x})\mathbf{h} + \frac{1}{2} \mu \mathbf{h}^\mathrm{T} \mathbf{h}
+    \end{align*}
+
+    where \( J(\mathbf{x}) \) is \( f(\mathbf{x}) \)'s Jacobian matrix, and \( \mu > 0 \) is the damped coefficient. Please prove that \( L(\mathbf{h}) \) is a strictly convex function. (Hint: If a function \( L(\mathbf{h}) \) is differentiable up to at least second order, \( L \) is strictly convex if its Hessian matrix is positive definite.)
+\end{problem}
+
+\begin{solution}
+    To prove that \( L(\mathbf{h}) \) is a strictly convex function, we need to prove that its Hessian matrix is positive definite.
+    \begin{align*}
+    \nabla L(\mathbf{h}) &= \frac{\partial L(\mathbf{h})}{\partial \mathbf{h}} = (J(\mathbf{x}))^\mathrm{T}f(\mathbf{x}) + (J(\mathbf{x}))^\mathrm{T} J(\mathbf{x})\mathbf{h} + \mu \mathbf{h} \\
+    \nabla^2 L(\mathbf{h}) &= \frac{\partial^2 L(\mathbf{h})}{\partial \mathbf{h}^2} = (J(\mathbf{x}))^\mathrm{T} J(\mathbf{x}) + \mu I
+    \end{align*}
+
+    where $I$ is the identity matrix. 
+
+    Hence, we need to prove that $ (J(\mathbf{x}))^\mathrm{T} J(\mathbf{x}) + \mu I $ is positive definite.
+
+    For any $\mathbf{v} \in \mathbb{R}^n$, $\mathbf{v} \neq \mathbf{0}$
+    \begin{align*}
+        \mathbf{v}^\mathrm{T} ((J(\mathbf{x}))^\mathrm{T} J(\mathbf{x}) + \mu I) \mathbf{v} &= \mathbf{v}^\mathrm{T} (J(\mathbf{x}))^\mathrm{T} J(\mathbf{x}) \mathbf{v} + \mu \mathbf{v}^\mathrm{T} \mathbf{v} \\
+        &= \| J(\mathbf{x}) \mathbf{v} \|^2_2 + \mu \| \mathbf{v} \|^2_2 \\
+        &> 0
+    \end{align*}
+
+    Hence, $ (J(\mathbf{x}))^\mathrm{T} J(\mathbf{x}) + \mu I $ is positive definite, and $ L(\mathbf{h}) $ is a strictly convex function.
+\end{solution}
+
+
+\begin{problem}
+    I have established a dataset for training models for detecting speed-bumps and persons. 
+    
+    This dataset can be downloaded from 
+    
+    https://github.com/csLinZhang/CVBook/tree/main/chapter-15-YOLO/For-yolov4.
+    
+    Using this dataset, please train a speed-bump detection model and test your model on the provided test video (on the course website). For this question, you only need to hand in your video with detected bounding-boxes to the TA. A sample frame of our result video may like the following image.
+\end{problem}
+
+
+\begin{solution}
+    The following is a frame with detected result in the video.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{../src/Q2.png}
+        \label{fig:Q4}
+    \end{figure}
+\end{solution}
+
+\end{document}
