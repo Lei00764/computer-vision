@@ -45,7 +45,7 @@ In this project, your task is to develop a simple interactive app between a mobi
 
 > **Caution:** In the above-mentioned tasks, 2D is the basic requirement. Encouraging students to achieve 3D display can result in extra bonus.
 
-### Features Implemented
+### What we do?
 
 - [x] 1. Start a SLAM application (Google cartographer) in the ROS system.
 - [x] 2. **Combined with hardware, self-purchased RPLIDAR A1M8 LiDAR to realize autonomous map building.**
@@ -56,7 +56,7 @@ In this project, your task is to develop a simple interactive app between a mobi
 - [x] 7. **Switch between 2D and 3D maps on mobile.**
 - [x] 8. Exit SLAM program from the app.
 
-For details, please refer to [hw/hw1/README.md](pj/README.md)
+For details, please refer to [pj/README.md](pj/README.md)
 
 ## Reference
 
