@@ -17,21 +17,11 @@
 
 ## Homework
 
-### Homework 1
+- [x] [Homework1](hw/hw1/README.md) ![100/100](https://img.shields.io/badge/Score-100%2F100-brightgreen) 
 
-![截屏2023-11-22 14.00.58](https://lei-1306809548.cos.ap-shanghai.myqcloud.com/Obsidian/%E6%88%AA%E5%B1%8F2023-11-22%2014.00.58.png)
+- [x] [Homework2](hw/hw2/README.md) ![100/100](https://img.shields.io/badge/Score-100%2F100-brightgreen) 
 
-For details, please refer to [hw/hw1/README.md](hw/hw1/README.md)
-
-### Homework 2
-
-![截屏2024-01-05 12.25.36](https://lei-1306809548.cos.ap-shanghai.myqcloud.com/Obsidian/%E6%88%AA%E5%B1%8F2024-01-05%2012.25.36.png)
-
-For details, please refer to [hw/hw2/README.md](hw/hw2/README.md)
-
-### Homework 3
-
-Easy to implement, no details.
+- [x] [Homework3][(hw/hw3/README.md)] ![100/100](https://img.shields.io/badge/Score-100%2F100-brightgreen) 
 
 ## Project
 
@@ -49,7 +39,7 @@ In this project, your task is to develop a simple interactive app between a mobi
 
 - [x] 1. Start a SLAM application (Google cartographer) in the ROS system.
 - [x] 2. **Combined with hardware, self-purchased RPLIDAR A1M8 LiDAR to realize autonomous map building.**
-- [x] 3. **The use of Sprint Lidar to generate a 3D point cloud map.**
+- [x] 3. **Use Sprint robosenes 16-wire LiDAR to generate a 3D point cloud map.**
 - [x] 4. The cartographer accepts the radar data and sends it to the mobile app after processing.
 - [x] 5. Real-time synchronization between the app and cartographer.
 - [x] 6. Display of 2D grid map and **3D point cloud.**
