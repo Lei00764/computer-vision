@@ -132,8 +132,6 @@ After launching iviz, there are two main configurations to which you need to pay
 
 - Enter the IP address and port of the TCP connection. This connection is for a hyper control on ROS process and commands between host and client. Usually the host process should be running on the same machine as the ROS process, thus TCP IP address is the same as the input address just now. TCP port is set in the socket of host process. You can check its script to obtain the port value.
 
-![截屏2024-01-05 10.32.59](../../../Library/Application Support/typora-user-images/截屏2024-01-05 10.32.59.png)
-
 ### PC(ROS)
 
 #### Play 2D/3D bag
