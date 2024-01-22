@@ -21,7 +21,7 @@
 
 - [x] [Homework2](hw/hw2/README.md) ![100/100](https://img.shields.io/badge/Score-100%2F100-brightgreen) 
 
-- [x] [Homework3][(hw/hw3/README.md)] ![100/100](https://img.shields.io/badge/Score-100%2F100-brightgreen) 
+- [x] [Homework3](hw/hw3/README.md) ![100/100](https://img.shields.io/badge/Score-100%2F100-brightgreen) 
 
 ## Project
 
