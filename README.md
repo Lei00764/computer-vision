@@ -1,4 +1,4 @@
-# 2023-Computer-Vision
+# Computer Vision (Fall 2023)
 
 同济大学 2023 年《计算机视觉》课程资料
 
